@@ -36,13 +36,10 @@ func ApisV1Produtos(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		Produtos(w, r)
-		break
 	case "POST":
 		Produtos(w, r)
-		break
 	case "PUT":
 		Produtos(w, r)
-		break
 	case "DELETE":
 		Produtos(w, r)
 	}

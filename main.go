@@ -17,6 +17,13 @@ import (
 )
 
 var Db *sqlx.DB
+var (
+	username = "root"
+	password = "1234"
+	host     = "127.0.0.1"
+	port     = "3306"
+	database = "ecom"
+)
 
 func main() {
 	//buscando a chave gerada para token
@@ -46,18 +53,16 @@ func main() {
 
 //CONNECTION WITH DATABASE
 func connection() (err error) {
-	err = nil
-
-	Db, err = sqlx.Open("mysql", "user:pass@tcp(127.0.0.1:3306)/bd")
+	uri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", username, password, host, port, database)
+	Db, err = sqlx.Open("mysql", uri)
 	if err != nil {
 		log.Fatal("ERRO ao conectar com banco de dados: ", err.Error())
 		return
 	}
+	defer Db.Close()
 
-	err = Db.Ping()
-	if err != nil {
-		log.Fatal("ERRO ao conectar com banco de dados: ", err.Error())
-		return
+	if err = Db.Ping(); err != nil {
+		log.Fatalf("ERRO ao conectar com banco de dados: %s", err)
 	}
 	return
 }
