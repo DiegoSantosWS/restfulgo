@@ -40,28 +40,15 @@ func main() {
 			fmt.Println("Erro ao abrir banco de dandos: ", err.Error())
 			return
 		}
-
-		r := mux.NewRouter()
-
-		r.HandleFunc("/v1/", MyHome).Methods("GET")
-		r.HandleFunc("/v1/products", ApisV1Produtos).Methods("GET")
-		r.HandleFunc("/v1/products/{id}", ApisV1Produtos).Methods("GET")
-		r.HandleFunc("/v1/products/", ApisV1Produtos).Methods("POST")
-		r.HandleFunc("/v1/products/{id}", ApisV1Produtos).Methods("PUT")
-		r.HandleFunc("/v1/products/{id}", ApisV1Produtos).Methods("DELETE")
-
-		err = http.ListenAndServe(":4000", r)
-		if err != nil {
-			log.Fatal("Erro ao instaciar o servidor: ", err.Error())
-		}
-
+		routers()
 	}
 }
 
+//CONNECTION WITH DATABASE
 func connection() (err error) {
 	err = nil
 
-	Db, err = sqlx.Open("mysql", "root:1234@tcp(127.0.0.1:3306)/ecom")
+	Db, err = sqlx.Open("mysql", "user:pass@tcp(127.0.0.1:3306)/bd")
 	if err != nil {
 		log.Fatal("ERRO ao conectar com banco de dados: ", err.Error())
 		return
@@ -75,6 +62,7 @@ func connection() (err error) {
 	return
 }
 
+//Gerando o token JWT
 func generateToken(key []byte) string {
 	secretKey := []byte(key)
 	claims := &jwt.StandardClaims{
@@ -88,4 +76,21 @@ func generateToken(key []byte) string {
 		log.Fatalln(err)
 	}
 	return tokenstring
+}
+
+//Definição das rotas usadas pelo sistema
+func routers() {
+	r := mux.NewRouter()
+
+	r.HandleFunc("/v1/", MyHome).Methods("GET")
+	r.HandleFunc("/v1/products", ApisV1Produtos).Methods("GET")
+	r.HandleFunc("/v1/products/{id}", ApisV1Produtos).Methods("GET")
+	r.HandleFunc("/v1/products/", ApisV1Produtos).Methods("POST")
+	r.HandleFunc("/v1/products/{id}", ApisV1Produtos).Methods("PUT")
+	r.HandleFunc("/v1/products/{id}", ApisV1Produtos).Methods("DELETE")
+
+	err := http.ListenAndServe(":4000", r)
+	if err != nil {
+		log.Fatal("Erro ao instaciar o servidor: ", err.Error())
+	}
 }
