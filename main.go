@@ -20,7 +20,7 @@ var Db *sqlx.DB
 
 func main() {
 	//buscando a chave gerada para token
-	key, err := ioutil.ReadFile("../secret.str")
+	key, err := ioutil.ReadFile("secret.str")
 	if err != nil {
 		log.Fatal(err.Error())
 		return
@@ -44,11 +44,11 @@ func main() {
 		r := mux.NewRouter()
 
 		r.HandleFunc("/v1/", MyHome).Methods("GET")
-		r.HandleFunc("/v1/produtos", ApisV1Produtos).Methods("GET")
-		r.HandleFunc("/v1/produtos/{id}", ApisV1Produtos).Methods("GET")
-		r.HandleFunc("/v1/produtos/", ApisV1Produtos).Methods("POST")
-		r.HandleFunc("/v1/produtos/{id}", ApisV1Produtos).Methods("PUT")
-		r.HandleFunc("/v1/produtos/{id}", ApisV1Produtos).Methods("DELETE")
+		r.HandleFunc("/v1/products", ApisV1Produtos).Methods("GET")
+		r.HandleFunc("/v1/products/{id}", ApisV1Produtos).Methods("GET")
+		r.HandleFunc("/v1/products/", ApisV1Produtos).Methods("POST")
+		r.HandleFunc("/v1/products/{id}", ApisV1Produtos).Methods("PUT")
+		r.HandleFunc("/v1/products/{id}", ApisV1Produtos).Methods("DELETE")
 
 		err = http.ListenAndServe(":4000", r)
 		if err != nil {
