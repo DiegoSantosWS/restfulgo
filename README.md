@@ -1,10 +1,10 @@
 # restfulgo
 CREATING A SIMPLE API USING GOLANG
 
-# CLONE
+<h1>CLONE</h1>
 <pre>git clone git@github.com:DiegoSantosWS/restfulgo.git</pre>
 
-# CREATING DATA BASE
+<h1>CREATING DATA BASE</h1>
 
 <pre>
     CREATE A DATA BASE AND LAST EXECUT THE CODE.
@@ -24,3 +24,7 @@ CREATING A SIMPLE API USING GOLANG
     PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 </pre>
+
+<h1>SECRET KEY</h1>
+
+Api requires a serect key to toke validation, to create a key create a file with name secret.str and add your key in his and system will identify.
