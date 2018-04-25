@@ -9,6 +9,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/jmoiron/sqlx"
+	yaml "gopkg.in/yaml.v2"
 	/**
 	github.com/go-sql-driver/mysql not is used in apllication directamente
 	*/
@@ -16,16 +17,29 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Info from config file
+type conf struct {
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
+	User string `yaml:"user"`
+	Pass string `yaml:"pass"`
+	DB   string `yaml:"bd"`
+}
+
+//Db é um ponteiro do pacote sqlx
 var Db *sqlx.DB
-var (
-	username = "root"
-	password = "1234"
-	host     = "127.0.0.1"
-	port     = "3306"
-	database = "ecom"
-)
 
 func main() {
+
+	yamlFile, err := ioutil.ReadFile("db.yml")
+	if err != nil {
+		log.Printf("yamlFile.Get err   #%v ", err)
+	}
+	conf := &conf{}
+	err = yaml.Unmarshal(yamlFile, conf)
+	if err != nil {
+		log.Printf("yamlFile.Get unmarshal err   #%v ", err)
+	}
 	//buscando a chave gerada para token
 	key, err := ioutil.ReadFile("secret.str")
 	if err != nil {
@@ -42,7 +56,7 @@ func main() {
 	})
 	//verifica se token é verdadeiro
 	if token.Valid == true {
-		err := connection()
+		err := conf.connection()
 		if err != nil {
 			fmt.Println("Erro ao abrir banco de dandos: ", err.Error())
 			return
@@ -52,14 +66,13 @@ func main() {
 }
 
 //CONNECTION WITH DATABASE
-func connection() (err error) {
-	uri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", username, password, host, port, database)
+func (conf *conf) connection() (err error) {
+	uri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", conf.User, conf.Pass, conf.Host, conf.Port, conf.DB)
 	Db, err = sqlx.Open("mysql", uri)
 	if err != nil {
 		log.Fatal("ERRO ao conectar com banco de dados: ", err.Error())
 		return
 	}
-	defer Db.Close()
 
 	if err = Db.Ping(); err != nil {
 		log.Fatalf("ERRO ao conectar com banco de dados: %s", err)
