@@ -11,7 +11,7 @@ $ git clone git@github.com:DiegoSantosWS/restfulgo.git
 CREATE A DATABASE AND AFTER EXECUTE THE CODE BELOW.
 ```bash
 $ mysql -u root -p ****
-mysql> CREATE DATABASE biblioteca;
+mysql> CREATE DATABASE nameyourdb;
 mysql> SHOW DATABASES;
 ```
 
