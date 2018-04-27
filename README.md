@@ -1,13 +1,20 @@
 # RESTFUL-GO
 CREATING A SIMPLE API USING GOLANG
 
-## CLONE<
+## CLONE
+
 ```bash
 $ git clone git@github.com:DiegoSantosWS/restfulgo.git
 ```
 ## CREATING DATABASE
 
 CREATE A DATABASE AND AFTER EXECUTE THE CODE BELOW.
+```bash
+$ mysql -u root -p ****
+mysql> CREATE DATABASE biblioteca;
+mysql> SHOW DATABASES;
+```
+
 ```sql
     CREATE TABLE `products` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -38,4 +45,5 @@ go run *.go
 After of all created open your browser and copy and paste the url below
 
 Open browser or postman and enter with url: `http://localhost:4000/v1/products`
-After `http://localhost:4000/v1/products/1` or number of the id generated in your database  
+
+After `http://localhost:4000/v1/products/1` or number of the id generated in your database
