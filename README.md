@@ -39,7 +39,7 @@ Api requires a serect key to toke validation, to create a key create a file with
 ## EXECUTING
 
 ```bash
-go run *.go
+go run main.go
 ```
 ## ACCESS
 After of all created open your browser and copy and paste the url below
