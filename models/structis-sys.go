@@ -40,5 +40,5 @@ type Clients struct {
 	Phone   string `json:"phone,omitempty" db:"phone"`
 	Status  string `json:"status,omitempty" db:"status"`
 	Date    string `json:"date,omitempty" db:"date"`
-	Address *AddressClients
+	*AddressClients
 }

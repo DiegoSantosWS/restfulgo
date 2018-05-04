@@ -232,19 +232,34 @@ func CtrClients(w http.ResponseWriter, r *http.Request) {
 
 //GetlistEndPointClients list all clients resgistered in your databases
 func GetlistEndPointClients(w http.ResponseWriter, r *http.Request) {
-	c := Clients{}
 	sql := "SELECT * FROM clients "
 	res, err := conect.Db.Queryx(sql)
 	if err != nil {
 		log.Fatal("ERROR: listar clients: ", err.Error())
 	}
 	defer res.Close()
-	var cli []Clients
+	var cli []*Clients
+	c := new(Clients)
+	var end []*AddressClients
+	e := new(AddressClients)
 	for res.Next() {
 		err := res.StructScan(&c)
 		if err != nil {
 			log.Fatal("ERROR: scan clients: ", err.Error())
 
+		}
+		sqlAdd := "SELECT * FROM clients_address WHERE idClients = ? "
+		resEnd, err := conect.Db.Queryx(sqlAdd, &c.ID)
+		if err != nil {
+			log.Fatal("ERROR: listar clients: ", err.Error())
+		}
+		defer res.Close()
+		for resEnd.Next() {
+			err := resEnd.StructScan(&e)
+			if err != nil {
+				log.Fatal("ERROR: scan clients: ", err.Error())
+			}
+			end = append(end, e)
 		}
 		cli = append(cli, c)
 	}
@@ -258,7 +273,7 @@ func GetlistEndPointClients(w http.ResponseWriter, r *http.Request) {
 
 //GetlistEndPointClientsByID list a client by your code
 func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) {
-	c := Clients{}
+	//c := Clients{}
 	sql := "SELECT * FROM clients WHERE id = ?"
 	res, err := conect.Db.Queryx(sql, id)
 	if err != nil {
@@ -266,7 +281,8 @@ func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	defer res.Close()
-	var cli []Clients
+	var cli []*Clients
+	c := new(Clients)
 	for res.Next() {
 		err := res.StructScan(&c)
 		if err != nil {
