@@ -281,7 +281,7 @@ func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) 
 		}
 		for resEnd.Next() {
 			address := AddressClients{}
-			err := resEnd.Scan(&address.ID, &address.IDCLIENTS, &address.Address, &address.Number, &address.City,
+			err := resEnd.Scan(&address.ID, &address.IDclients, &address.Address, &address.Number, &address.City,
 				&address.Neighborhood, &address.Country, &address.State)
 			if err != nil {
 				log.Fatal("ERROR: scan address clients: ", err.Error())

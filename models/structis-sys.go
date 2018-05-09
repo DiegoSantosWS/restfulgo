@@ -24,8 +24,8 @@ type Message struct {
 
 //AddressClients to listing clients
 type AddressClients struct {
-	ID           int    `json:"idclient,omitempty" db:"idClients"`
-	IDCLIENTS    string `json:"idclient,omitempty" db:"idClients"`
+	ID           int    `json:"id,omitempty" db:"id"`
+	IDclients    string `json:"idclient,omitempty" db:"idClients"`
 	Address      string `json:"address,omitempty" db:"address"`
 	Number       string `json:"number,omitempty" db:"number"`
 	City         string `json:"city,omitempty" db:"city"`
