@@ -24,6 +24,8 @@ type Message struct {
 
 //AddressClients to listing clients
 type AddressClients struct {
+	ID           int    `json:"idclient,omitempty" db:"idClients"`
+	IDCLIENTS    string `json:"idclient,omitempty" db:"idClients"`
 	Address      string `json:"address,omitempty" db:"address"`
 	Number       string `json:"number,omitempty" db:"number"`
 	City         string `json:"city,omitempty" db:"city"`
@@ -34,11 +36,11 @@ type AddressClients struct {
 
 //Clients to listing clients
 type Clients struct {
-	ID      int    `json:"id,omitempty" db:"id"`
-	Name    string `json:"name,omitempty" db:"name"`
-	Email   string `json:"email,omitempty" db:"email"`
-	Phone   string `json:"phone,omitempty" db:"phone"`
-	Status  string `json:"status,omitempty" db:"status"`
-	Date    string `json:"date,omitempty" db:"date"`
-	*AddressClients
+	ID      int              `json:"id,omitempty" db:"id"`
+	Name    string           `json:"name,omitempty" db:"name"`
+	Email   string           `json:"email,omitempty" db:"email"`
+	Phone   string           `json:"phone,omitempty" db:"phone"`
+	Status  string           `json:"status,omitempty" db:"status"`
+	Date    string           `json:"date,omitempty" db:"date"`
+	Address []AddressClients `json:"address,omitempty"`
 }

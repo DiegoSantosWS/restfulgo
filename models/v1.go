@@ -238,31 +238,17 @@ func GetlistEndPointClients(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("ERROR: listar clients: ", err.Error())
 	}
 	defer res.Close()
-	var cli []*Clients
-	c := new(Clients)
-	var end []*AddressClients
-	e := new(AddressClients)
+	c := Clients{}
+	var cli []Clients
 	for res.Next() {
-		err := res.StructScan(&c)
+		err := res.Scan(&c.ID, &c.Name, &c.Email, &c.Phone, &c.Status, &c.Date)
 		if err != nil {
 			log.Fatal("ERROR: scan clients: ", err.Error())
 
 		}
-		sqlAdd := "SELECT * FROM clients_address WHERE idClients = ? "
-		resEnd, err := conect.Db.Queryx(sqlAdd, &c.ID)
-		if err != nil {
-			log.Fatal("ERROR: listar clients: ", err.Error())
-		}
-		defer res.Close()
-		for resEnd.Next() {
-			err := resEnd.StructScan(&e)
-			if err != nil {
-				log.Fatal("ERROR: scan clients: ", err.Error())
-			}
-			end = append(end, e)
-		}
 		cli = append(cli, c)
 	}
+
 	cliJSON, err := json.Marshal(cli)
 	if err != nil {
 		log.Fatal("ERROR: json clients", err.Error())
@@ -273,7 +259,6 @@ func GetlistEndPointClients(w http.ResponseWriter, r *http.Request) {
 
 //GetlistEndPointClientsByID list a client by your code
 func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) {
-	//c := Clients{}
 	sql := "SELECT * FROM clients WHERE id = ?"
 	res, err := conect.Db.Queryx(sql, id)
 	if err != nil {
@@ -284,12 +269,26 @@ func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) 
 	var cli []*Clients
 	c := new(Clients)
 	for res.Next() {
-		err := res.StructScan(&c)
+		err := res.Scan(&c.ID, &c.Name, &c.Email, &c.Phone, &c.Status, &c.Date)
 		if err != nil {
 			log.Fatal("ERROR: scan clients: ", err.Error())
-			return
 
 		}
+		sqlAdd := "SELECT id, idClients, address, number, city, neighborhood, country, state FROM clients_address WHERE idClients = ? "
+		resEnd, err := conect.Db.Queryx(sqlAdd, c.ID)
+		if err != nil {
+			log.Fatal("ERROR: listar addres clients: ", sqlAdd, "-", err.Error())
+		}
+		for resEnd.Next() {
+			address := AddressClients{}
+			err := resEnd.Scan(&address.ID, &address.IDCLIENTS, &address.Address, &address.Number, &address.City,
+				&address.Neighborhood, &address.Country, &address.State)
+			if err != nil {
+				log.Fatal("ERROR: scan address clients: ", err.Error())
+			}
+			c.Address = append(c.Address, address)
+		}
+
 		cli = append(cli, c)
 	}
 	cliJSON, err := json.Marshal(cli)
