@@ -39,9 +39,16 @@ Api requires a serect key to toke validation, to create a key create a file with
 ## EXECUTING
 
 ```bash
-go run main.go
+$ go run main.go
 ```
-## ACCESS
+
+OR
+
+```bash
+$ go build
+$ ./restfulgo
+```
+## TEST OF ACCESS
 After of all created open your browser and copy and paste the url below
 
 Open browser or postman and enter with url: `http://localhost:4000/v1/products`
