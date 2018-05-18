@@ -2,7 +2,13 @@ language: go
 os:
   - linux
 go:
-  - 1.10
+  - 1.10.1
+before_install:
+  - go get -u github.com/dgrijalva/jwt-go
+  - go get -u github.com/go-sql-driver/mysql
+  - go get -u github.com/gorilla/mux
+  - go get -u github.com/jmoiron/sqlx
+  - go get -u gopkg.in/yaml.v2
 install:
   - go run main.go
 script:
