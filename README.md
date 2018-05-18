@@ -1,4 +1,4 @@
-# RESTFUL-GO
+# RESTFUL-GO [![Build Status](https://travis-ci.org/DiegoSantosWS/restfulgo.svg?branch=master)](https://travis-ci.org/DiegoSantosWS/restfulgo)
 CREATING A SIMPLE API USING GOLANG
 
 ## CLONE
