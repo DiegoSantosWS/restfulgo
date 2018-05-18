@@ -3,7 +3,7 @@ os:
   - linux
 go:
   - 1.10
-before_install:
-  - ./..
+install:
+  - go run main.go
 script:
   - go test
