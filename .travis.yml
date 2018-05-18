@@ -4,6 +4,6 @@ os:
 go:
   - 1.10
 before_install:
-  - go get -u github.com/DiegoSantosWS/restfulgo
+  - ./..
 script:
   - go test
