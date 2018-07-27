@@ -24,7 +24,6 @@ var Db *sqlx.DB
 
 //Connection CONNECTION WITH DATABASE
 func Connection(conf *Conf) (err error) {
-	fmt.Println(conf)
 	uri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", conf.User, conf.Pass, conf.Host, conf.Port, conf.DB)
 	Db, err = sqlx.Open("mysql", uri)
 	if err != nil {
