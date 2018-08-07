@@ -9,20 +9,10 @@ import (
 	funcs "github.com/DiegoSantosWS/restfulgo/pakgs"
 	route "github.com/DiegoSantosWS/restfulgo/routers"
 	jwt "github.com/dgrijalva/jwt-go"
-	yaml "gopkg.in/yaml.v2"
 )
 
 func main() {
 
-	yamlFile, err := ioutil.ReadFile("db.yml")
-	if err != nil {
-		log.Printf("yamlFile.Get err   #%v ", err)
-	}
-	conf := &conect.Conf{}
-	err = yaml.Unmarshal(yamlFile, conf)
-	if err != nil {
-		log.Printf("yamlFile.Get unmarshal err   #%v ", err)
-	}
 	//buscando a chave gerada para token
 	key, err := ioutil.ReadFile("secret.str")
 	if err != nil {
@@ -39,9 +29,9 @@ func main() {
 	})
 	//verifica se token é verdadeiro
 	if token.Valid == true {
-		err := conect.Connection(conf)
+		err := conect.Connection()
 		if err != nil {
-			fmt.Println("Erro ao abrir banco de dandos: ", err.Error())
+			fmt.Println("Erro ao abrir banco de dandos teste: ", err.Error())
 			return
 		}
 		route.Routers()

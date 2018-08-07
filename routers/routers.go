@@ -1,8 +1,10 @@
 package routers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	m "github.com/DiegoSantosWS/restfulgo/models"
 	"github.com/gorilla/mux"
@@ -24,9 +26,11 @@ func Routers() {
 	r.HandleFunc("/v1/clients/", m.CtrClients).Methods("POST")
 	r.HandleFunc("/v1/clients/{id}", m.CtrClients).Methods("PUT")
 	r.HandleFunc("/v1/clients/{id}", m.CtrClients).Methods("DELETE")
-
-	if err := http.ListenAndServe(":4000", r); err != nil {
-		log.Fatal("Erro ao instaciar o servidor: ", err.Error())
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "5000"
 	}
-
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", port), r); err != nil {
+		log.Fatal("[ERRO RUNN] Erro ao instanciar o servidor")
+	}
 }

@@ -3,6 +3,7 @@ package connection
 import (
 	"fmt"
 	"log"
+	"os"
 	/**
 	github.com/go-sql-driver/mysql not is used in apllication directamente
 	*/
@@ -23,16 +24,16 @@ type Conf struct {
 var Db *sqlx.DB
 
 //Connection CONNECTION WITH DATABASE
-func Connection(conf *Conf) (err error) {
-	uri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", conf.User, conf.Pass, conf.Host, conf.Port, conf.DB)
+func Connection() (err error) {
+	uri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_ROOT_PASSWORD"), os.Getenv("MYSQL_HOST"), "3306", os.Getenv("MYSQL_DATABASE"))
 	Db, err = sqlx.Open("mysql", uri)
 	if err != nil {
-		log.Fatal("ERRO ao conectar com banco de dados: ", err.Error())
+		log.Fatal("ERRO ao conectar com banco de dados teste con: ", err.Error())
 		return
 	}
 
 	if err = Db.Ping(); err != nil {
-		log.Fatalf("ERRO ao conectar com banco de dados: %s", err)
+		log.Fatalf("ERRO ao conectar com banco de dados teste ping: %s", err)
 	}
 	return
 }

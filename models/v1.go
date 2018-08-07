@@ -274,6 +274,7 @@ func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) 
 			log.Fatal("ERROR: scan clients: ", err.Error())
 
 		}
+
 		sqlAdd := "SELECT id, idClients, address, number, city, neighborhood, country, state FROM clients_address WHERE idClients = ? "
 		resEnd, err := conect.Db.Queryx(sqlAdd, c.ID)
 		if err != nil {
