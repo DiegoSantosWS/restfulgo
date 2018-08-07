@@ -259,40 +259,28 @@ func GetlistEndPointClients(w http.ResponseWriter, r *http.Request) {
 
 //GetlistEndPointClientsByID list a client by your code
 func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) {
-	sql := "SELECT * FROM clients WHERE id = ?"
+
+	c := Clients{}
+	sql := "SELECT c.*, cEnd.id, cEnd.idClients, cEnd.address, cEnd.number, cEnd.city, cEnd.neighborhood, cEnd.country, cEnd.state FROM clients as c LEFT JOIN clients_address AS cEnd ON c.id = cEnd.idClients WHERE c.id = ?"
 	res, err := conect.Db.Queryx(sql, id)
 	if err != nil {
-		log.Fatal("ERROR: listar clients: ", err.Error())
+		log.Fatal("ERROR: scan clients: ", err.Error())
 		return
 	}
 	defer res.Close()
-	var cli []*Clients
-	c := new(Clients)
+
 	for res.Next() {
-		err := res.Scan(&c.ID, &c.Name, &c.Email, &c.Phone, &c.Status, &c.Date)
+		end := AddressClients{}
+
+		err := res.Scan(&c.ID, &c.Name, &c.Email, &c.Phone, &c.Status, &c.Date, &end.ID, &end.Address, &end.City, &end.Country, &end.IDclients, &end.Neighborhood, &end.Number, &end.State)
 		if err != nil {
 			log.Fatal("ERROR: scan clients: ", err.Error())
 
 		}
-
-		sqlAdd := "SELECT id, idClients, address, number, city, neighborhood, country, state FROM clients_address WHERE idClients = ? "
-		resEnd, err := conect.Db.Queryx(sqlAdd, c.ID)
-		if err != nil {
-			log.Fatal("ERROR: listar addres clients: ", sqlAdd, "-", err.Error())
-		}
-		for resEnd.Next() {
-			address := AddressClients{}
-			err := resEnd.Scan(&address.ID, &address.IDclients, &address.Address, &address.Number, &address.City,
-				&address.Neighborhood, &address.Country, &address.State)
-			if err != nil {
-				log.Fatal("ERROR: scan address clients: ", err.Error())
-			}
-			c.Address = append(c.Address, address)
-		}
-
-		cli = append(cli, c)
+		c.Address = append(c.Address, end)
 	}
-	cliJSON, err := json.Marshal(cli)
+
+	cliJSON, err := json.Marshal(c)
 	if err != nil {
 		log.Fatal("ERROR: json clients by id", err.Error())
 	}
