@@ -1,2 +1,4 @@
 *.str
 *.yml
+*.lock
+*.toml
