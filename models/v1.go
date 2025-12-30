@@ -19,30 +19,30 @@ func MyHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "MINHA HOME")
 }
 
-// CtrProdutos controller de chamadas
-func CtrProdutos(w http.ResponseWriter, r *http.Request) {
+// ControllerProdutos controller de chamadas
+func ControllerProdutos(w http.ResponseWriter, r *http.Request) {
 	code := mux.Vars(r)
 	id, _ := strconv.Atoi(code["id"])
 
 	switch r.Method {
 	case "POST":
-		EndPointPostProducts(w, r)
+		CreateProduct(w, r)
 	case "DELETE":
-		DeleteEndPointProducts(id, w, r)
+		DeleteProduct(id, w, r)
 	case "PUT":
-		EndPointUpdateProducts(id, w, r)
+		UpdateProduct(id, w, r)
 	case "GET":
 		if id != 0 {
-			GetlistEndPointProductsByID(id, w, r)
+			GetlistProductByID(id, w, r)
 		} else {
-			GetlistEndPointProducts(w, r)
+			GetListProduct(w, r)
 		}
 	}
 }
 
-// GetlistEndPointProducts list all products resgistered in your databases
-func GetlistEndPointProducts(w http.ResponseWriter, r *http.Request) {
-	p := Products{}
+// GetListProduct list all products resgistered in your databases
+func GetListProduct(w http.ResponseWriter, r *http.Request) {
+	p := Product{}
 	sql := "SELECT * FROM products "
 	res, err := conect.Db.Queryx(sql)
 	if err != nil {
@@ -50,7 +50,7 @@ func GetlistEndPointProducts(w http.ResponseWriter, r *http.Request) {
 	}
 	defer res.Close()
 
-	var prod []Products
+	var prod []Product
 	for res.Next() {
 		err := res.StructScan(&p)
 		if err != nil {
@@ -69,9 +69,9 @@ func GetlistEndPointProducts(w http.ResponseWriter, r *http.Request) {
 	w.Write(prodJSON)
 }
 
-// GetlistEndPointProductsByID list an product by your code
-func GetlistEndPointProductsByID(id int, w http.ResponseWriter, r *http.Request) {
-	p := Products{}
+// GetlistProductByID list an product by your code
+func GetlistProductByID(id int, w http.ResponseWriter, r *http.Request) {
+	p := Product{}
 	sql := "SELECT * FROM products WHERE id = ?"
 	res, err := conect.Db.Queryx(sql, id)
 	if err != nil {
@@ -80,7 +80,7 @@ func GetlistEndPointProductsByID(id int, w http.ResponseWriter, r *http.Request)
 	}
 	defer res.Close()
 
-	var prod []Products
+	var prod []Product
 	for res.Next() {
 		err := res.StructScan(&p)
 		if err != nil {
@@ -100,8 +100,8 @@ func GetlistEndPointProductsByID(id int, w http.ResponseWriter, r *http.Request)
 	w.Write(prodJSON)
 }
 
-// DeleteEndPointProducts exclude a product
-func DeleteEndPointProducts(id int, w http.ResponseWriter, r *http.Request) {
+// DeleteProduct exclude a product
+func DeleteProduct(id int, w http.ResponseWriter, r *http.Request) {
 	sql := "DELETE FROM products WHERE id = ? "
 	rows, err := conect.Db.Exec(sql, id)
 	if err != nil {
@@ -129,8 +129,8 @@ func DeleteEndPointProducts(id int, w http.ResponseWriter, r *http.Request) {
 	w.Write(prodDelJSON)
 }
 
-// EndPointUpdateProducts altereding a product
-func EndPointUpdateProducts(id int, w http.ResponseWriter, r *http.Request) {
+// UpdateProduct altereding a product
+func UpdateProduct(id int, w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	price := r.FormValue("price")
 
@@ -161,8 +161,8 @@ func EndPointUpdateProducts(id int, w http.ResponseWriter, r *http.Request) {
 	w.Write(prodUpJSON)
 }
 
-// EndPointPostProducts create new product in databases
-func EndPointPostProducts(w http.ResponseWriter, r *http.Request) {
+// CreateProduct create new product in databases
+func CreateProduct(w http.ResponseWriter, r *http.Request) {
 
 	Name := r.FormValue("name")
 	Description := r.FormValue("description")
@@ -209,29 +209,29 @@ func EndPointPostProducts(w http.ResponseWriter, r *http.Request) {
 	w.Write(prodInsertJSON)
 }
 
-// CtrClients controller de chamadas
-func CtrClients(w http.ResponseWriter, r *http.Request) {
+// ControllerClients controller de chamadas
+func ControllerClients(w http.ResponseWriter, r *http.Request) {
 	code := mux.Vars(r)
 	id, _ := strconv.Atoi(code["id"])
 
 	switch r.Method {
 	case "POST":
-		EndPointPostClients(w, r)
+		CreateClient(w, r)
 	case "DELETE":
-		DeleteEndPointClients(id, w, r)
+		DeleteClient(id, w, r)
 	case "PUT":
-		EndPointUpdateClients(id, w, r)
+		UpdateClient(id, w, r)
 	case "GET":
 		if id != 0 {
-			GetlistEndPointClientsByID(id, w, r)
+			GetClientByID(id, w, r)
 		} else {
-			GetlistEndPointClients(w, r)
+			GetListClients(w, r)
 		}
 	}
 }
 
-// GetlistEndPointClients list all clients resgistered in your databases
-func GetlistEndPointClients(w http.ResponseWriter, r *http.Request) {
+// GetListClients list all clients resgistered in your databases
+func GetListClients(w http.ResponseWriter, r *http.Request) {
 	sql := "SELECT * FROM clients "
 	res, err := conect.Db.Queryx(sql)
 	if err != nil {
@@ -257,8 +257,8 @@ func GetlistEndPointClients(w http.ResponseWriter, r *http.Request) {
 	w.Write(cliJSON)
 }
 
-// GetlistEndPointClientsByID list a client by your code
-func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) {
+// GetClientByID get a client by your code
+func GetClientByID(id int, w http.ResponseWriter, r *http.Request) {
 
 	c := Clients{}
 	sql := "SELECT c.*, cEnd.id, cEnd.idClients, cEnd.address, cEnd.number, cEnd.city, cEnd.neighborhood, cEnd.country, cEnd.state FROM clients as c LEFT JOIN clients_address AS cEnd ON c.id = cEnd.idClients WHERE c.id = ?"
@@ -270,7 +270,7 @@ func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) 
 	defer res.Close()
 
 	for res.Next() {
-		end := AddressClients{}
+		end := AddressClient{}
 
 		err := res.Scan(&c.ID, &c.Name, &c.Email, &c.Phone, &c.Status, &c.Date, &end.ID, &end.Address, &end.City, &end.Country, &end.IDclients, &end.Neighborhood, &end.Number, &end.State)
 		if err != nil {
@@ -288,8 +288,8 @@ func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) 
 	w.Write(cliJSON)
 }
 
-// DeleteEndPointClients delete a client
-func DeleteEndPointClients(id int, w http.ResponseWriter, r *http.Request) {
+// DeleteClient delete a client
+func DeleteClient(id int, w http.ResponseWriter, r *http.Request) {
 	sql := "DELETE FROM clients WHERE id = ? "
 	rows, err := conect.Db.Exec(sql, id)
 	if err != nil {
@@ -315,8 +315,8 @@ func DeleteEndPointClients(id int, w http.ResponseWriter, r *http.Request) {
 	w.Write(cliDelJSON)
 }
 
-// EndPointUpdateClients alter client
-func EndPointUpdateClients(id int, w http.ResponseWriter, r *http.Request) {
+// UpdateClient client update
+func UpdateClient(id int, w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	email := r.FormValue("email")
 	phone := r.FormValue("phone")
@@ -346,8 +346,8 @@ func EndPointUpdateClients(id int, w http.ResponseWriter, r *http.Request) {
 	w.Write(cliUpJSON)
 }
 
-// EndPointPostClients Create client
-func EndPointPostClients(w http.ResponseWriter, r *http.Request) {
+// CreateClient create new client in databases
+func CreateClient(w http.ResponseWriter, r *http.Request) {
 
 	name := r.FormValue("name")
 	email := r.FormValue("email")

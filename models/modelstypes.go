@@ -1,7 +1,7 @@
 package models
 
-//Products Struct of products
-type Products struct {
+// Product Struct represent a product
+type Product struct {
 	ID          int     `json:"id" db:"id"`
 	Nome        string  `json:"name" db:"name"`
 	Description string  `json:"description" db:"description"`
@@ -15,15 +15,15 @@ type Products struct {
 	Promotion   float64 `json:"promotion" db:"promotion"`
 }
 
-//Message struct of the message
+// Message struct of the message
 type Message struct {
 	Executed bool
 	Message  string
 	COD      int
 }
 
-//AddressClients to listing clients
-type AddressClients struct {
+// AddressClient to listing clients
+type AddressClient struct {
 	ID           int    `json:"id,omitempty" db:"id"`
 	IDclients    string `json:"idclient,omitempty" db:"idClients"`
 	Address      string `json:"address,omitempty" db:"address"`
@@ -34,13 +34,13 @@ type AddressClients struct {
 	State        string `json:"state,omitempty" db:"state"`
 }
 
-//Clients to listing clients
+// Clients to listing clients
 type Clients struct {
-	ID      int              `json:"id,omitempty" db:"id"`
-	Name    string           `json:"name,omitempty" db:"name"`
-	Email   string           `json:"email,omitempty" db:"email"`
-	Phone   string           `json:"phone,omitempty" db:"phone"`
-	Status  string           `json:"status,omitempty" db:"status"`
-	Date    string           `json:"date,omitempty" db:"date"`
-	Address []AddressClients `json:"address,omitempty"`
+	ID      int             `json:"id,omitempty" db:"id"`
+	Name    string          `json:"name,omitempty" db:"name"`
+	Email   string          `json:"email,omitempty" db:"email"`
+	Phone   string          `json:"phone,omitempty" db:"phone"`
+	Status  string          `json:"status,omitempty" db:"status"`
+	Date    string          `json:"date,omitempty" db:"date"`
+	Address []AddressClient `json:"address,omitempty"`
 }

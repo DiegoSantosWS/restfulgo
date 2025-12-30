@@ -15,17 +15,17 @@ func Routers() {
 	r := mux.NewRouter()
 	//routers of the clients
 	r.HandleFunc("/v1/", m.MyHome).Methods("GET")
-	r.HandleFunc("/v1/products", m.CtrProdutos).Methods("GET")
-	r.HandleFunc("/v1/products/{id}", m.CtrProdutos).Methods("GET")
-	r.HandleFunc("/v1/products/", m.CtrProdutos).Methods("POST")
-	r.HandleFunc("/v1/products/{id}", m.CtrProdutos).Methods("PUT")
-	r.HandleFunc("/v1/products/{id}", m.CtrProdutos).Methods("DELETE")
+	r.HandleFunc("/v1/products", m.ControllerProdutos).Methods("GET")
+	r.HandleFunc("/v1/products/{id}", m.ControllerProdutos).Methods("GET")
+	r.HandleFunc("/v1/products/", m.ControllerProdutos).Methods("POST")
+	r.HandleFunc("/v1/products/{id}", m.ControllerProdutos).Methods("PUT")
+	r.HandleFunc("/v1/products/{id}", m.ControllerProdutos).Methods("DELETE")
 	//routers of the clients
-	r.HandleFunc("/v1/clients", m.CtrClients).Methods("GET")
-	r.HandleFunc("/v1/clients/{id}", m.CtrClients).Methods("GET")
-	r.HandleFunc("/v1/clients/", m.CtrClients).Methods("POST")
-	r.HandleFunc("/v1/clients/{id}", m.CtrClients).Methods("PUT")
-	r.HandleFunc("/v1/clients/{id}", m.CtrClients).Methods("DELETE")
+	r.HandleFunc("/v1/clients", m.ControllerClients).Methods("GET")
+	r.HandleFunc("/v1/clients/{id}", m.ControllerClients).Methods("GET")
+	r.HandleFunc("/v1/clients/", m.ControllerClients).Methods("POST")
+	r.HandleFunc("/v1/clients/{id}", m.ControllerClients).Methods("PUT")
+	r.HandleFunc("/v1/clients/{id}", m.ControllerClients).Methods("DELETE")
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "5000"
