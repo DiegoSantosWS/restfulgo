@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	m "github.com/DiegoSantosWS/restfulgo/models"
+	m "restfulgo/models"
+
 	"github.com/gorilla/mux"
 )
 
@@ -20,6 +21,7 @@ func Routers() {
 	r.HandleFunc("/v1/products/", m.ControllerProdutos).Methods("POST")
 	r.HandleFunc("/v1/products/{id}", m.ControllerProdutos).Methods("PUT")
 	r.HandleFunc("/v1/products/{id}", m.ControllerProdutos).Methods("DELETE")
+
 	//routers of the clients
 	r.HandleFunc("/v1/clients", m.ControllerClients).Methods("GET")
 	r.HandleFunc("/v1/clients/{id}", m.ControllerClients).Methods("GET")

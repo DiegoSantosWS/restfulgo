@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"restfulgo/connection"
+	"restfulgo/pkgs/auth"
 
-	conect "github.com/DiegoSantosWS/restfulgo/connection"
-	funcs "github.com/DiegoSantosWS/restfulgo/pakgs"
-	route "github.com/DiegoSantosWS/restfulgo/routers"
+	route "restfulgo/routers"
+
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
@@ -22,14 +23,14 @@ func main() {
 
 	key = []byte(key) //converte para byte
 
-	tokenstring := funcs.GenerateToken(key) //recebendo a string do token
+	tokenstring := auth.GenerateToken(key) //recebendo a string do token
 	//verifica se a string estar correta e retornar a chave.
 	token, _ := jwt.Parse(tokenstring, func(token *jwt.Token) (interface{}, error) {
 		return []byte(key), nil
 	})
 	//verifica se token é verdadeiro
 	if token.Valid == true {
-		err := conect.Connection()
+		err := connection.GetConnection()
 		if err != nil {
 			fmt.Println("Erro ao abrir banco de dandos teste: ", err.Error())
 			return

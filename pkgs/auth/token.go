@@ -1,4 +1,4 @@
-package pakgs
+package auth
 
 import (
 	"log"
