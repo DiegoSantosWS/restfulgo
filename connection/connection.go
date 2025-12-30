@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+
 	/**
 	github.com/go-sql-driver/mysql not is used in apllication directamente
 	*/
@@ -11,7 +12,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-//Conf Info from config file
+// Conf Info from config file
 type Conf struct {
 	Host string `yaml:"host"`
 	Port string `yaml:"port"`
@@ -20,11 +21,11 @@ type Conf struct {
 	DB   string `yaml:"bd"`
 }
 
-//Db é um ponteiro do pacote sqlx
+// Db é um ponteiro do pacote sqlx
 var Db *sqlx.DB
 
-//Connection CONNECTION WITH DATABASE
-func Connection() (err error) {
+// GetConnection CONNECTION WITH DATABASE
+func GetConnection() (err error) {
 	uri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_ROOT_PASSWORD"), os.Getenv("MYSQL_HOST"), "3306", os.Getenv("MYSQL_DATABASE"))
 	Db, err = sqlx.Open("mysql", uri)
 	if err != nil {
