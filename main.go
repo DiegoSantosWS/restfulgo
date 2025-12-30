@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 
 	conect "github.com/DiegoSantosWS/restfulgo/connection"
 	funcs "github.com/DiegoSantosWS/restfulgo/pakgs"
@@ -14,7 +14,7 @@ import (
 func main() {
 
 	//buscando a chave gerada para token
-	key, err := ioutil.ReadFile("secret.str")
+	key, err := os.ReadFile("secret.str")
 	if err != nil {
 		log.Fatal(err.Error())
 		return

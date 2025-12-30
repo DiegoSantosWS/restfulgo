@@ -12,14 +12,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//MyHome teste teste teste teste
+// MyHome teste teste teste teste
 func MyHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "METODO USADO <%s>:\r\n", r.Method)
 	fmt.Fprintf(w, "URI DO USADA <%s>: \r\n", r.URL.Path)
 	fmt.Fprintf(w, "MINHA HOME")
 }
 
-//CtrProdutos controller de chamadas
+// CtrProdutos controller de chamadas
 func CtrProdutos(w http.ResponseWriter, r *http.Request) {
 	code := mux.Vars(r)
 	id, _ := strconv.Atoi(code["id"])
@@ -27,24 +27,20 @@ func CtrProdutos(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
 		EndPointPostProducts(w, r)
-		break
 	case "DELETE":
 		DeleteEndPointProducts(id, w, r)
-		break
 	case "PUT":
 		EndPointUpdateProducts(id, w, r)
-		break
 	case "GET":
 		if id != 0 {
 			GetlistEndPointProductsByID(id, w, r)
 		} else {
 			GetlistEndPointProducts(w, r)
 		}
-		break
 	}
 }
 
-//GetlistEndPointProducts list all products resgistered in your databases
+// GetlistEndPointProducts list all products resgistered in your databases
 func GetlistEndPointProducts(w http.ResponseWriter, r *http.Request) {
 	p := Products{}
 	sql := "SELECT * FROM products "
@@ -53,6 +49,7 @@ func GetlistEndPointProducts(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("ERROR: listar produtos: ", err.Error())
 	}
 	defer res.Close()
+
 	var prod []Products
 	for res.Next() {
 		err := res.StructScan(&p)
@@ -62,15 +59,17 @@ func GetlistEndPointProducts(w http.ResponseWriter, r *http.Request) {
 		}
 		prod = append(prod, p)
 	}
+
 	prodJSON, err := json.Marshal(prod)
 	if err != nil {
 		log.Fatal("ERROR: json produtos", err.Error())
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(prodJSON)
 }
 
-//GetlistEndPointProductsByID list an product by your code
+// GetlistEndPointProductsByID list an product by your code
 func GetlistEndPointProductsByID(id int, w http.ResponseWriter, r *http.Request) {
 	p := Products{}
 	sql := "SELECT * FROM products WHERE id = ?"
@@ -80,6 +79,7 @@ func GetlistEndPointProductsByID(id int, w http.ResponseWriter, r *http.Request)
 		return
 	}
 	defer res.Close()
+
 	var prod []Products
 	for res.Next() {
 		err := res.StructScan(&p)
@@ -90,15 +90,17 @@ func GetlistEndPointProductsByID(id int, w http.ResponseWriter, r *http.Request)
 		}
 		prod = append(prod, p)
 	}
+
 	prodJSON, err := json.Marshal(prod)
 	if err != nil {
 		log.Fatal("ERROR: json produtos", err.Error())
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(prodJSON)
 }
 
-//DeleteEndPointProducts exclude a product
+// DeleteEndPointProducts exclude a product
 func DeleteEndPointProducts(id int, w http.ResponseWriter, r *http.Request) {
 	sql := "DELETE FROM products WHERE id = ? "
 	rows, err := conect.Db.Exec(sql, id)
@@ -110,23 +112,24 @@ func DeleteEndPointProducts(id int, w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("ERRO: erro ao deletar produto inexistente: ", err.Error())
 	}
-	fmt.Println(linhas)
+
 	d := Message{}
 	if linhas != 0 {
 		d = Message{true, "Product deleted successfully.", id}
 	} else {
 		d = Message{false, "Product not deleted or not localized.", id}
 	}
+
 	prodDelJSON, err := json.Marshal(d)
 	if err != nil {
 		log.Fatal("ERROR: json produtos", err.Error())
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(prodDelJSON)
-
 }
 
-//EndPointUpdateProducts altereding a product
+// EndPointUpdateProducts altereding a product
 func EndPointUpdateProducts(id int, w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	price := r.FormValue("price")
@@ -141,22 +144,24 @@ func EndPointUpdateProducts(id int, w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("ERRO: erro ao alterar produto inexistente: ", err.Error())
 	}
-	fmt.Println(linhas)
+
 	d := Message{}
 	if linhas != 0 {
 		d = Message{true, "Product altered successfully.", id}
 	} else {
 		d = Message{false, "Product not altered or not localized.", id}
 	}
+
 	prodUpJSON, err := json.Marshal(d)
 	if err != nil {
 		log.Fatal("ERROR: json produtos", err.Error())
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(prodUpJSON)
 }
 
-//EndPointPostProducts create new product in databases
+// EndPointPostProducts create new product in databases
 func EndPointPostProducts(w http.ResponseWriter, r *http.Request) {
 
 	Name := r.FormValue("name")
@@ -202,10 +207,9 @@ func EndPointPostProducts(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(prodInsertJSON)
-
 }
 
-//CtrClients controller de chamadas
+// CtrClients controller de chamadas
 func CtrClients(w http.ResponseWriter, r *http.Request) {
 	code := mux.Vars(r)
 	id, _ := strconv.Atoi(code["id"])
@@ -213,24 +217,20 @@ func CtrClients(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
 		EndPointPostClients(w, r)
-		break
 	case "DELETE":
 		DeleteEndPointClients(id, w, r)
-		break
 	case "PUT":
 		EndPointUpdateClients(id, w, r)
-		break
 	case "GET":
 		if id != 0 {
 			GetlistEndPointClientsByID(id, w, r)
 		} else {
 			GetlistEndPointClients(w, r)
 		}
-		break
 	}
 }
 
-//GetlistEndPointClients list all clients resgistered in your databases
+// GetlistEndPointClients list all clients resgistered in your databases
 func GetlistEndPointClients(w http.ResponseWriter, r *http.Request) {
 	sql := "SELECT * FROM clients "
 	res, err := conect.Db.Queryx(sql)
@@ -257,7 +257,7 @@ func GetlistEndPointClients(w http.ResponseWriter, r *http.Request) {
 	w.Write(cliJSON)
 }
 
-//GetlistEndPointClientsByID list a client by your code
+// GetlistEndPointClientsByID list a client by your code
 func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) {
 
 	c := Clients{}
@@ -288,7 +288,7 @@ func GetlistEndPointClientsByID(id int, w http.ResponseWriter, r *http.Request) 
 	w.Write(cliJSON)
 }
 
-//DeleteEndPointClients delete a client
+// DeleteEndPointClients delete a client
 func DeleteEndPointClients(id int, w http.ResponseWriter, r *http.Request) {
 	sql := "DELETE FROM clients WHERE id = ? "
 	rows, err := conect.Db.Exec(sql, id)
@@ -315,7 +315,7 @@ func DeleteEndPointClients(id int, w http.ResponseWriter, r *http.Request) {
 	w.Write(cliDelJSON)
 }
 
-//EndPointUpdateClients alter client
+// EndPointUpdateClients alter client
 func EndPointUpdateClients(id int, w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	email := r.FormValue("email")
@@ -346,7 +346,7 @@ func EndPointUpdateClients(id int, w http.ResponseWriter, r *http.Request) {
 	w.Write(cliUpJSON)
 }
 
-//EndPointPostClients Create client
+// EndPointPostClients Create client
 func EndPointPostClients(w http.ResponseWriter, r *http.Request) {
 
 	name := r.FormValue("name")
