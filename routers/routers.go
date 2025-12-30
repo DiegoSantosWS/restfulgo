@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//Routers Definição das rotas usadas pelo sistema
+// Routers Definição das rotas usadas pelo sistema
 func Routers() {
 	r := mux.NewRouter()
 	//routers of the clients
@@ -30,6 +30,7 @@ func Routers() {
 	if port == "" {
 		port = "5000"
 	}
+
 	if err := http.ListenAndServe(fmt.Sprintf(":%s", port), r); err != nil {
 		log.Fatal("[ERRO RUNN] Erro ao instanciar o servidor")
 	}
