@@ -1,5 +1,6 @@
-filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=
 filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
+filippo.io/edwards25519 v1.1.1 h1:YpjwWWlNmGIDyXOn8zLzqiD+9TyIlPhGFG96P39uBpw=
+filippo.io/edwards25519 v1.1.1/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
 github.com/DiegoSantosWS/restfulgo v0.0.0-20180808230503-3fe1aa93a275 h1:AW6lBBQ8f53IdE0O1uglnTRgYTOrrFXOpeDCOKvZq90=
 github.com/DiegoSantosWS/restfulgo v0.0.0-20180808230503-3fe1aa93a275/go.mod h1:f+rG1G59n7ru34HaKQJprRxqVnyQSc7H2BIgXxxIzFY=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
